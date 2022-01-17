@@ -59,8 +59,44 @@ func TestTodosHitos(t *testing.T) {
                 stored. Not a greeat deal</aside>
         </section>
 
-        
-            
+        <section><h1>Introspection is to metaprogramming</h1>
+            <h2 class="fragment">as variables to a whole program</h2>
+            <h3 class="fragment">You can watch, but not change a lot</h3>
+        </section>
+
+        <section><h1>Overloading changes the meaning of commands/operators</h1>
+            <h2 class="fragment">Not really hard</h2>
+            <h3 class="fragment">Overloading <em>operators</em>, a bit
+                tougher</h3>
+        </section>
+
+        <section><h1>But Lua can do it:</h1>
+            <pre><code data-line-numbers="11|4,7|4,12|7,13">local complex = { r= 3, i= 5 }
+
+local mti = {
+   __tostring = function( n )
+      return n.r.."+".. n.i.."i"
+   end,
+   __len = function( n )
+      return math.sqrt(n.r*n.r + n.i * n.i)
+   end
+}
+setmetatable( complex, mti )
+print( tostring(complex ) )
+print( #complex )</code></pre>
+
+            <aside class="fragment">Is the program really manipulating itself?
+            Well, tostring has a new meaning to to a certain point it is,
+            although it's more doing something similar to multiple dispatch, by
+                making commands behave differently depending on the operators.</aside>
+        </section>
+
+        <section><h1>Macros take this one step further</h1>
+            <h2 class="fragment">Programs are parsed to an Abstract Syntax
+                Tree</h2>
+        </section>
+
+        <section><h1>Macros rewrite that syntax tree</h1></section>
       </div>
     </div>
 
