@@ -21,15 +21,46 @@
 	  <h2>JJ Merelo</h2>
 	</section>
 
-	<section><h1>Metaprogramming is</h1>
-	  <h2 class='fragment'>Change your language from code in the same language</h2>
+	<section><h1>Metaprogramming <a href="https://stackoverflow.com/questions/514644/what-exactly-is-metaprogramming">is</a></h1>
+	  <h2 class='fragment'>"Having knowledge or letting a program manipulate
+	  itself"</h2>
 	</section>
 
-		<section><h1>Three mechanisms </h1>
-		  <h2 class='fragment'>Overloading</h2>
-		  <h2 class='fragment'>Macros/ASIT</h2>
-		  <h2 class='fragment'>Access to HOW</h2>
+	<section><h1>So it includes </h1>
+            <h2 class="fragment">Introspection</h2>
+	    <h2 class='fragment'>Overloading</h2>
+	    <h2 class='fragment'>Macros/AST</h2>
+	    <h2 class='fragment'>Access to HOW</h2>
 	</section>
+
+        <section><h1>Everyone introspects</h1>
+            <pre><code data-background="3|13">package HitosIV
+import (
+	"reflect"
+	"testing"
+	"os"
+)
+func TestMain(m *testing.M) {
+	_ = ReadsFromFile("./hitos_test.json") // Alternative test file
+	os.Exit(m.Run())
+}
+func TestTodosHitos(t *testing.T) {
+	t.Log("Test Todos")
+	these_milestones := Hitos()
+	if reflect.TypeOf(these_milestones).String() == "Data" {
+		t.Error("No milestones here")
+	}
+}</code></pre>
+
+            <aside class="notes">Introspection in one way or another is the
+            bread and butter of almost every modern language, interpreted or
+            otherwise. Not complicated to find it. Using that, we can find out
+            the type of something, or even check out how somethign is
+                stored. Not a greeat deal</aside>
+        </section>
+
+        
+            
       </div>
     </div>
 
