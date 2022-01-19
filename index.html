@@ -93,7 +93,7 @@ print( #complex )</code></pre>
                 making commands behave differently depending on the operators.</aside>
         </section>
 
-        <sections>
+        <section>
             <section><h1>Macros take this one step further</h1>
                 <h2 class="fragment">Programs are parsed to an Abstract Syntax
                     Tree</h2>
@@ -106,7 +106,26 @@ print( #complex )</code></pre>
             <section>
                 <h1>Macros rewrite that syntax tree</h1>
             </section>
-        </sections>
+
+            <section><h1>Using macros in Julia</h1>
+                <pre><code data-line-numbers="7|6,8|10">struct Complex
+    r::Real
+    i::Real
+end
+
+macro len(x)
+    return :( sqrt( $x.r * $x.r + $x.i*$x.i ) )
+end
+
+print(@len(Complex(3,4)))</code></pre>
+        </section>
+
+        <section><h1><code>EVAL</code>: poor person's macro</h1>
+            <h2 class="fragment">Used throughout most interpreted languages</h2>
+            <h2 class="fragment">Also: insecure</h2>
+        </section>
+        </section>
+
       </div>
     </div>
 
