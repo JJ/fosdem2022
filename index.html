@@ -204,8 +204,59 @@ my $a-quaternion = $quaternion.new( :i(0.0.Num), :j(1.0.Num), :k(1.0.Num), :l(3.
 
 say $a-quaternion.modulo();</code></pre>
             </section>
+
+            <section><h1>⬆ create syntax</h1>
+                <pre><code data-line-numbers="1|3|5-8|12,14">class MetamodelX::Dataclass is Metamodel::ClassHOW {
+
+    method add_method(Mu \type, $name, $code_obj) {
+        my @attribute-names =
+                self.attributes( type, :local).map: *.name.substr(2,*);
+        unless $name eq "BUILDALL" or $name ∈ @attribute-names {
+            die "Data classes have no methods";
+        }
+        callsame();
+    }
+}
+
+my package EXPORTHOW {
+    package DECLARE {
+        constant dataclass = MetamodelX::Dataclass;
+    }
+}</code></pre>
+            </section>
+
+            <section><h1>This <code>dataclass</code> is ready to go</h1>
+                <pre><code>use Dataclass;
+dataclass Foo {
+    has $.bar;
+    has $.baz = 33;
+}
+my $foo = Foo.new(:3bar);
+say $foo.bar;</code></pre>
+                <aside class="notes">Any method here will just issue a syntax
+                    error</aside>
+            </section>
+            <section><h1>No methods allowed here</h1>
+                <pre><code data-line-numbers="3,8|1-12">try {
+    my $dataclass = MetamodelX::Dataclass.new_type( :name("Bar") );
+    $dataclass.^add_method( 'bar', -> { "Won't work" });
+    $dataclass.^compose();
+    CATCH {
+        default {
+            $*ERR.say: .message; # Print "Data classes have no methods"
+        }
+    }
+}</code></pre>
+            </section>
         </section>
-                </pre>
+
+        <section><h1>Conclusions</h1>
+            <h2 class="fragment">Postmodern languages beget themselves</h2>
+            <h2 class="fragment">Metaprogramming helps clean code,
+                efficiency</h2>
+            <h2 class="fragment">Raku can do it!</h2>
+        </section>
+        
       </div>
     </div>
 
