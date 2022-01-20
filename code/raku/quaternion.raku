@@ -12,10 +12,15 @@ $quaternion,:has_accessor);
     $quaternion.^add_attribute( $attr );
 }
 
+my $modulo = method ( $invocant: ) {
+    sqrt( $invocant.i²+$invocant.j²+$invocant.k²+$invocant.l²)
+};
+
+$quaternion.^add_method( "modulo", $modulo );
 $quaternion.^compose;
 
 my $a-quaternion = $quaternion.new( :i(0.0.Num), :j(1.0.Num), :k(1.0.Num),
         :l(3.0.Num));
 
-say $a-quaternion.j();
+say $a-quaternion.modulo();
 
