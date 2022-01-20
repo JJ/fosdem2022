@@ -1,5 +1,3 @@
-#!/usr/bin/env perl6
-
 use experimental :macros;
 
 macro modulo( $c ) {
@@ -11,9 +9,5 @@ multi sub prefix:<📏>( Complex $c ) returns Num { return modulo( $c ) }
 multi sub prefix:<📏>( @a ) returns Num { return sqrt @a Z* @a  }
 multi sub prefix:<📏>( $a ) returns Num { return ($a²).Num  }
 
-my @ary = (3+2i, [3,2,1], 4i, 2 );
-
-for @ary -> $a {
-    say 📏$a;
-}
+say 📏$_ for (3+2i, [3,2,1], 4i, 2 );
 

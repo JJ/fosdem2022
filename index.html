@@ -142,10 +142,51 @@ print(@len(Complex(3,4)))</code></pre>
         </section>
         </section>
 
+        <section>
+
         <section><h1>Let me tell you about Raku</h1>
             <h1 class="fragment">Multi-paradigm, compiled language</h1>
         </section>
 
+        <section><h1>Computing the module</h1>
+            <pre><code data-line-numbers="7-9|6-9|1-5">use experimental :macros;
+
+macro modulo( $c ) {
+    quasi { sqrt ({{{$c}}}.re*{{{$c}}}.re + {{{$c}}}.im*{{{$c}}}.im) }
+};
+
+proto     prefix:<📏>(|) returns Num {*}
+multi sub prefix:<📏>( Complex $c ) returns Num { return modulo( $c ) }
+multi sub prefix:<📏>( @a ) returns Num { return sqrt @a Z* @a  }
+multi sub prefix:<📏>( $a ) returns Num { return ($a²).Num  }
+
+say 📏$_ for (3+2i, [3,2,1], 4i, 2 );</code></pre>
+
+            <aside class="notes">It's implicit introspection (because we're
+      implicitly checking the type of the argument) and also we're overloading
+      an operator that's not a base operator (meta-programming a new prefix
+      operator in the process). Macros are experimental, but it's quite clear
+                that Raku is a contender in the meta arena</aside>
+        </section>
+        </section>
+
+        <section><!-- Meta-object protocols in Raku -->
+            <section><h1>Just a few languages let you access the metamodel...</h1>
+                <h1 class="fragment">..in runtime</h1>
+            </section>
+
+            <section><h1>Accessing the Higher Order Workings (HOW)</h1>
+                <h2 class="fragment">We're talking about defining classes or other
+                fundamental data structures</h2>
+
+                <aside class="fragment">At the end of the day, building a class
+            or an enum needs to have some kind of language support; that's
+            called the HOW. Most languages only have access to that in
+            runtime. Some languages, like JavaScript or Python, can access class
+                    prototypes or their way of creating objects is inherently
+                    dynamic. In very few cases we'll be able to access this dynamically</aside>
+            </section>
+        </section>
       </div>
     </div>
 
