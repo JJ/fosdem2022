@@ -18,7 +18,7 @@
     <div class="reveal">
       <div class="slides">
 	<section data-background='https://live.staticflickr.com/65535/51626169755_1ed4a07631_k_d.jpg'><h1>The manifold joys of <em>Meta</em>programming</h1>
-	  <h2>JJ Merelo</h2>
+	    <h2>JJ Merelo, <a href="https://github.com/JJ">JJ @GitHub</a>, <a href="https://twitter.com/jjmerelo"><code>@jjmerelo</code></a> </h2>
 	</section>
 
 	<section><h1>Metaprogramming <a href="https://stackoverflow.com/questions/514644/what-exactly-is-metaprogramming">is</a></h1>
@@ -108,7 +108,7 @@ print( #complex )</code></pre>
                     on 007/Alma</a> add some humor (and info)</aside>
             </section>
 
-            <section>
+            <section><h1>An AST is like...</h1>
                 <p><a href="https://commons.wikimedia.org/wiki/File:Abstract_syntax_tree_for_Euclidean_algorithm.svg#/media/File:Abstract_syntax_tree_for_Euclidean_algorithm.svg"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Abstract_syntax_tree_for_Euclidean_algorithm.svg" alt="Abstract syntax tree for Euclidean algorithm.svg" width="1147" height="1294"></a><br>By &lt;a href="//commons.wikimedia.org/wiki/User:Dcoetzee" title="User:Dcoetzee"&gt;Dcoetzee&lt;/a&gt; - &lt;span class="int-own-work" lang="en"&gt;Own work&lt;/span&gt;, <a href="http://creativecommons.org/publicdomain/zero/1.0/deed.en" title="Creative Commons Zero, Public Domain Dedication">CC0</a>, <a href="https://commons.wikimedia.org/w/index.php?curid=14676451">Link</a></p>
             </section>
 
@@ -155,7 +155,7 @@ print(@len(Complex(3,4)))</code></pre><aside class="notes">The :() construct
         </section>
 
         <section><h1>Computing the module</h1>
-            <pre><code data-line-numbers="7-10|8-10|1-5|12">use experimental :macros;
+            <pre><code data-line-numbers="7-10|8-10|1-5,8|12">use experimental :macros;
 
 macro modulo( $c ) {
     quasi { sqrt ({{{$c}}}.re*{{{$c}}}.re + {{{$c}}}.im*{{{$c}}}.im) }
@@ -194,7 +194,7 @@ say 📏$_ for (3+2i, [3,2,1], 4i, 2 );</code></pre>
             </section>
 
             <section><h1>Let's have a class</h1>
-                <pre><code data-line-numbers="1|5,10,11|1,5,10,11|13-15">my $quaternion = Metamodel::ClassHOW.new_type(name => "Quaternion", ver => v0.0.1, auth => "github:JJ");
+                <pre><code data-line-numbers="1|4|5,10,11|1,5,10,11|13-15">my $quaternion = Metamodel::ClassHOW.new_type(name => "Quaternion", ver => v0.0.1, auth => "github:JJ");
 
 for &lt;i j k l> -> $a {
     my $attr = Attribute.new(name => '$.'~$a, type => Num, package =>  $quaternion,:has_accessor);
@@ -209,6 +209,8 @@ $quaternion.^compose;
 my $a-quaternion = $quaternion.new( :i(0.0.Num), :j(1.0.Num), :k(1.0.Num), :l(3.0.Num));
 
 say $a-quaternion.modulo();</code></pre>
+                <aside class="notes">The ClassHOW is used by the compiler to
+                    actually build classes; and we can use it too!</aside>
             </section>
 
             <section><h1>⬆ create syntax</h1>
@@ -228,7 +230,8 @@ my package EXPORTHOW {
     package DECLARE {
         constant dataclass = MetamodelX::Dataclass;
     }
-}</code></pre>
+}</code></pre><aside class="notes">You can go one level up and actually create
+                    new syntax</aside>
             </section>
 
             <section><h1>This <code>dataclass</code> is ready to go</h1>
@@ -249,17 +252,16 @@ say $foo.bar;</code></pre>
     $dataclass.^compose();
     CATCH {
         default {
-            $*ERR.say: .message; # Print "Data classes have no methods"
+            $*ERR.say: .message; # Will print "Data classes have no methods"
         }
     }
 }</code></pre>
             </section>
         </section>
 
-        <section><h1>Conclusions</h1>
-            <h2 class="fragment">Postmodern languages beget themselves</h2>
-            <h2 class="fragment">Metaprogramming helps clean code,
-                efficiency</h2>
+        <section data-background="https://live.staticflickr.com/65535/51832490953_be4927abe8_k_d.jpg"><h1>Conclusions</h1>
+            <h2 class="fragment">Postmodern programs know thyselves</h2>
+            <h2 class="fragment">Metaprogramming creates clean, efficient code</h2>
             <h2 class="fragment">Raku can do it!</h2>
         </section>
         
@@ -272,7 +274,7 @@ say $foo.bar;</code></pre>
     <script src="plugin/highlight/highlight.js"></script>
     <script>Reveal.initialize({
 			  hash: true,
-			  width: '95%',
+			  width: '99%',
 			  controls: true,
 			  progress: true,
 			  plugins: [ RevealHighlight, RevealNotes ]
