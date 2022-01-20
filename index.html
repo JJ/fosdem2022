@@ -186,7 +186,26 @@ say 📏$_ for (3+2i, [3,2,1], 4i, 2 );</code></pre>
                     prototypes or their way of creating objects is inherently
                     dynamic. In very few cases we'll be able to access this dynamically</aside>
             </section>
+
+            <section><h1>Let's have a class</h1>
+                <pre><code data-line-numbers="1|5,10,11|1,5,10,11|13-15">my $quaternion = Metamodel::ClassHOW.new_type(name => "Quaternion", ver => v0.0.1, auth => "github:JJ");
+
+for &lt;i j k l> -> $a {
+    my $attr = Attribute.new(name => '$.'~$a, type => Num, package =>  $quaternion,:has_accessor);
+    $quaternion.^add_attribute( $attr );
+}
+
+my $modulo = method ( $invocant: ) { sqrt( $invocant.i²+$invocant.j²+$invocant.k²+$invocant.l²) };
+
+$quaternion.^add_method( "modulo", $modulo );
+$quaternion.^compose;
+
+my $a-quaternion = $quaternion.new( :i(0.0.Num), :j(1.0.Num), :k(1.0.Num), :l(3.0.Num));
+
+say $a-quaternion.modulo();</code></pre>
+            </section>
         </section>
+                </pre>
       </div>
     </div>
 

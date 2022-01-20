@@ -19,8 +19,7 @@ my $modulo = method ( $invocant: ) {
 $quaternion.^add_method( "modulo", $modulo );
 $quaternion.^compose;
 
-my $a-quaternion = $quaternion.new( :i(0.0.Num), :j(1.0.Num), :k(1.0.Num),
-        :l(3.0.Num));
+my $a-quaternion = $quaternion.new( :i(0.0.Num), :j(1.0.Num), :k(1.0.Num), :l(3.0.Num));
 
 say $a-quaternion.modulo();
 
