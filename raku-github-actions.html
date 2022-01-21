@@ -47,6 +47,13 @@ jobs:
         <section><h1>This step is properly called an
             <em>action</em></h1></section>
 
+        <section><h1>See it... in action</h1>
+            <img src="img/running-step.png" alt="result of running the
+                      step">
+            <aside class="notes">Where we can see that it's actually running a
+                few steps all by itself. This is bacause...</aside>
+        </section>
+
         <section><h1>And we have four types of actions</h1>
             <h2 class="fragment">Container</h2>
             <h2 class="fragment">Shell</h2>
@@ -73,23 +80,32 @@ runs:
     - name: Test and install for more tests
       uses: docker://ghcr.io/jj/raku-zef-gha</code></pre>
         </section>
+
+        <section><h1>We need the composite action to be able to run several
+            steps</h1></section>
         
-            <section><h1><em>Steps</em> can be</h1>
-            <h2 class="fragment">Containers
-            </h2>
-        </section>
-                
-        <section><h1>But how does that work?</h1>
-            <h2>Jobs can run in Linux/Win/MacOS runners</h2>
-            <h1 class="fragment">Or in containers</h1>
+        <section><h1><em>Steps</em> can be</h1>
+            <h2 class="fragment">Containers</h2>
+            <h2 class="fragment">Other actions</h2>
+            <h2 class="fragment">Scripts</h2>
         </section>
 
+        <section><h1>Watch our steps</h1>
+        <pre><code data-line-numbers="2|3|9-10|">  steps:
+    - uses: actions/checkout@v2    # "Official" action: checks out source
+    - name: Cache installed dists  # "Official" action: caches installed compunits
+      uses: actions/cache@v2
+      id: meta6
+      with:
+        path: ~/.raku/
+        key: ${{ runner.os }}-${{ hashFiles('META6.json') }}
+    - name: Test and install for more tests # Docker container!
+      uses: docker://ghcr.io/jj/raku-zef-gha</code></pre>
+        </section>
 
-        <section><h1>Let's create a Raku container for that</h1>
+        <section><h1>That's its own little Raku container</h1>
             <h2 class="fragment">Any container?</h2>
-        </section>
-
-        <section><h1>No, not really</h1>
+            <h1 class="fragment">No, not really</h1>
             <h2 class="fragment">GitHub runs specific commands, in certain
                 directories, with specific privileges</h2>
         </section>
