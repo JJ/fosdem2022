@@ -23,9 +23,39 @@
 
 	<section><h1>GitHub Actions are</h1>
 	  <h2 class='fragment'>A flexible workflow execution environment
-	      triggered by repo events.</h2>
+	      triggered by repo events</h2>
           <h2 class="fragment">Free for open source repos</h2>
 	</section>
+
+        <section>
+            <h1>Workflows have jobs, which are independent execution
+                environments</h1>
+            <h2 class="fragment">Jobs run sequential <em>steps</em></h2>
+        </section>
+
+        <section><h2>Jobs can run in Linux/Win/MacOS runners</h2>
+            <h1 class="fragment">Or in containers</h1>
+        </section>
+
+        <section><h1>Let's create a Raku container for that</h1>
+            <h2 class="fragment">Any container?</h2>
+        </section>
+
+        <section><h1>No, not really</h1>
+            <h2 class="fragment">GitHub runs specific commands, in certain
+                directories, with specific privileges</h2>
+        </section>
+
+        <section><h1>Our container needs to have</h1>
+            <h2 class="fragment">Default user UID 1001</h2>
+            <h2 class="fragment"><code>git</code>, <code>tar</code>
+                available</h2>
+            <h1 class="fragment">Deal with <code>$HOME=/home/github</code></h1>
+            <aside class="notes">all this and much more in my <a
+            href="https://dev.to/jj/designing-containers-for-github-actions-5h84">Practical
+                Dev article</a>
+            </aside>
+        </section>
 
       </div>
     </div>
