@@ -33,9 +33,57 @@
             <h2 class="fragment">Jobs run sequential <em>steps</em></h2>
         </section>
 
-        <section><h2>Jobs can run in Linux/Win/MacOS runners</h2>
+        <section><h1>Testing your Raku module</h1>
+            <pre><code data-line-numbers="1-9|2-4|5-9|6-7|8-9">on: [ push, pull_request ]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test via install
+        uses: JJ/raku-test-action@main
+            </code></pre>
+        </section>
+
+        <section><h1>This step is properly called an
+            <em>action</em></h1></section>
+
+        <section><h1>And we have four types of actions</h1>
+            <h2 class="fragment">Container</h2>
+            <h2 class="fragment">Shell</h2>
+            <h2 class="fragment">Javascript</h2>
+            <h2 class="fragment"><em>Composite</em></h2>
+        </section>
+
+        <section><h1>This is a composite action</h1>
+            <pre><code data-line-numbers="7|8-17|8|">name: 'raku-test-action'
+description: 'Test raku modules caching dependencies'
+branding:
+  icon: 'life-buoy'
+  color: 'blue'
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+    - name: Cache installed dists
+      uses: actions/cache@v2
+      id: meta6
+      with:
+        path: ~/.raku/
+        key: ${{ runner.os }}-${{ hashFiles('META6.json') }}
+    - name: Test and install for more tests
+      uses: docker://ghcr.io/jj/raku-zef-gha</code></pre>
+        </section>
+        
+            <section><h1><em>Steps</em> can be</h1>
+            <h2 class="fragment">Containers
+            </h2>
+        </section>
+                
+        <section><h1>But how does that work?</h1>
+            <h2>Jobs can run in Linux/Win/MacOS runners</h2>
             <h1 class="fragment">Or in containers</h1>
         </section>
+
 
         <section><h1>Let's create a Raku container for that</h1>
             <h2 class="fragment">Any container?</h2>
