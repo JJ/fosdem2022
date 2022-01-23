@@ -51,7 +51,7 @@ jobs:
             <img src="img/running-step.png" alt="result of running the
                       step">
             <aside class="notes">Where we can see that it's actually running a
-                few steps all by itself. This is bacause...</aside>
+                few steps all by itself. This is because...</aside>
         </section>
 
         <section><h1>And we have four types of actions</h1>
@@ -79,11 +79,10 @@ runs:
         key: ${{ runner.os }}-${{ hashFiles('META6.json') }}
     - name: Test and install for more tests
       uses: docker://ghcr.io/jj/raku-zef-gha</code></pre>
+            <aside class="notes">We need the composite action to be able to run several
+                steps</aside>
         </section>
 
-        <section><h1>We need the composite action to be able to run several
-            steps</h1></section>
-        
         <section><h1><em>Steps</em> can be</h1>
             <h2 class="fragment">Containers</h2>
             <h2 class="fragment">Other actions</h2>
@@ -91,7 +90,7 @@ runs:
         </section>
 
         <section><h1>Watch our steps</h1>
-        <pre><code data-line-numbers="2|3|9-10|">  steps:
+            <pre><code data-line-numbers="2|3|9-10|">  steps:
     - uses: actions/checkout@v2    # "Official" action: checks out source
     - name: Cache installed dists  # "Official" action: caches installed compunits
       uses: actions/cache@v2
@@ -101,6 +100,14 @@ runs:
         key: ${{ runner.os }}-${{ hashFiles('META6.json') }}
     - name: Test and install for more tests # Docker container!
       uses: docker://ghcr.io/jj/raku-zef-gha</code></pre>
+        </section>
+
+        <section><h1>Some improvement?</h1>
+            <img src="img/cache.png" alt="before and after the cache kicks in">
+            <aside class="notes">Zef takes quite a while to install things, over
+                all if you want to do it with safe testing; this is actually
+                installing a single dependency, Test::Meta. Improvement will depend
+                on the amount of modules, but at any rate there will be an improvement.</aside>
         </section>
 
         <section><h1>That's its own little Raku container</h1>
@@ -117,10 +124,76 @@ runs:
             <h1 class="fragment">Deal with <code>$HOME=/home/github</code></h1>
             <aside class="notes">all this and much more in my <a
             href="https://dev.to/jj/designing-containers-for-github-actions-5h84">Practical
-                Dev article</a>
+                Dev article. Git and tar are needed for checkout (although it's
+            not really used in this one</a>
             </aside>
         </section>
 
+        <section><h1>But we can run a whole job inside a container</h1>
+            <pre><code data-line-numbers="6-7|11-16|17-18">jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: read
+    container:
+      image: ghcr.io/jj/raku-zef-gha
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cache installed dists
+        uses: actions/cache@v2
+        id: meta6
+        with:
+          path: ~/.raku/
+          key: ${{ runner.os }}-${{ hashFiles('META6.json') }}
+      - name: Test and install for more tests
+        run: zef install .</code></pre>
+        </section>
+
+        <section><h1>Pretty much the same, except you've got more
+            control...</h1>
+            <h2 class="fragment">Install Alpine packages, run some other
+                stuff</h2>
+        </section>
+
+        <section><h1>Github Workflows have more</h1>
+            <h2 class="fragment">Minimalist text-based API mainly for
+                communicating with user: errors, warnings</h2>
+            <aside class="notes">Besides respecting common coventions: a step
+                fails if its exit status is not zero</aside>
+        </section>
+
+        <section><h1>Enter <code>Github::Actions</code></h1>
+            <pre><code>use GitHub::Actions:
+say %github; # Contains all GITHUB_xyz variables
+set-output('FOO','BAR');
+set-output('FOO'); # Empty value
+set-env("FOO", "bar");
+debug('FOO');
+error('FOO');
+warning('FOO');</code></pre></section>
+
+        <section><h1>Or write steps in Raku</h1>
+            <pre><code>      - name: Test output
+        id: output_test
+        shell: raku {0}
+        run:
+          use GitHub::Actions;
+          set-output( 'FOO', 'BAR');
+            </code></pre></section>
+
+        <section><h1>Or run external scripts</h1>
+            <pre><code> - name: Genera JSON
+        run: raku -Ilib scripts/iv-objetivos.raku > data/objetivos.json</code></pre>
+
+            <aside class="notes">parts of the class analytics done in Raku,
+                which I'm going to talk about in the other talk</aside>
+        </section>
+
+        <section><h1>Conclusion</h1>
+            <h2 class="fragment">Full control of GitHub actions using Raku</h2>
+            <h1 class="fragment">Use ready-made or roll our your own!</h1>
+        </section>
       </div>
     </div>
 
