@@ -125,7 +125,8 @@ runs:
             <aside class="notes">all this and much more in my <a
             href="https://dev.to/jj/designing-containers-for-github-actions-5h84">Practical
                 Dev article. Git and tar are needed for checkout (although it's
-            not really used in this one</a>
+            not really used in this one. But that's not all we can do with Raku
+            and GitHub actions.</a>
             </aside>
         </section>
 
@@ -148,6 +149,9 @@ runs:
           key: ${{ runner.os }}-${{ hashFiles('META6.json') }}
       - name: Test and install for more tests
         run: zef install .</code></pre>
+            <aside class="notes">This is pretty much the same as the external
+            Action we had, except we're not running a container from an Ubuntu
+                runner, the Raku container <em>is</em> the runner</aside>
         </section>
 
         <section><h1>Pretty much the same, except you've got more
@@ -183,8 +187,8 @@ warning('FOO');</code></pre></section>
             </code></pre></section>
 
         <section><h1>Or run external scripts</h1>
-            <pre><code> - name: Genera JSON
-        run: raku -Ilib scripts/iv-objetivos.raku > data/objetivos.json</code></pre>
+            <pre><code> - name: Generates JSON
+   run: raku -Ilib scripts/iv-objetivos.raku > data/objetivos.json</code></pre>
 
             <aside class="notes">parts of the class analytics done in Raku,
                 which I'm going to talk about in the other talk</aside>
