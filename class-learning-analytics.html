@@ -48,6 +48,89 @@
         <section><h1>I want my Raku!</h1>
             <h2 class="fragment">OK, we're getting there</h2>
         </section>
+
+        <section><h1>Students submit PRs to specific files</h1>
+            <h2 class="fragment">Objective met marked in the same row</h2>
+            <img class="fragment" src="img/objetivos.png" alt="Objetivos
+                        alcanzados">
+        </section>
+
+        <section><h1>Objectives are</h1>
+            <h2 class="fragment">Not submitted</h2>
+            <h2 class="fragment">Not evaluated</h2>
+            <h2 class="fragment">Done</h2>
+            <h2 class="fragment">Unfulfilled</h2>
+            <aside class="notes">The whole idea of formative grading is that you
+            need to help the student to progress towards every objective. So via
+                reviews, you help them progress</aside>
+        </section>
+
+        <section><h1>Class analytics give you an idea of how students are
+            progressing in their objectives</h1>
+            <h2 class="fragment">Markdown ⇒ sets of students</h2>
+        </section>
+
+        <section><h1>Meet <code>IV::Stats</code></h1>
+            <h2 class="fragment">Digest objectives markdown files, obtain grades
+                and such</h2>
+        </section>
+
+        <section><h1>What are the grades</h1>
+            <pre><code>use IV::Stats;
+
+say IV::Stats.new.notas.map( *.trans( "." => "," )).join("\n");</code></pre>
+            <aside class="notes">The change is to put it in the Spanish
+                locale. Might be a more elegant way of doing so, but this is good enough</aside>
+        </section>
+
+        <section><h1>Has anyone dropped out?</h1>
+            <pre><code>use IV::Stats;
+
+my $stats = IV::Stats.new;
+
+for $stats.objetivos -> $o {
+    if ( $stats.bajas-totales($o) != set( Any ) ) {
+        say "⬇️ 📉 $o ", $stats.bajas-totales($o).keys.join(" 🧍 ");
+        say "⬇️ 🎯 $o ", $stats.bajas-objetivos($o).keys.join(" 🧍 ");
+    }
+}</code></pre>
+        </section>
+
+        <section><h1>It's a set difference</h1>
+            <pre><code>method bajas-totales( UInt $objetivo) {
+    return @!objetivos[$objetivo] ⊖  @!entregas[$objetivo + 1];
+}</code></pre>
+            <img src="img/bajas.png" alt="bajas">
+            <aside class="notes">This tells me how everything is going, so that
+                I can contact them and offer help or guidance</aside>
+        </section>
+
+         <section><h1>How many objectives have been reached?</h1>
+            <pre><code>use IV::Stats;
+
+use JSON::Fast;
+
+say to-json IV::Stats.new.objetivos-cumplidos</code></pre>
+
+            <h2 class="fragment">Inside a GitHub action</h2>
+            <pre><code>      - name: Genera JSON
+        run: raku -Ilib scripts/iv-objetivos.raku > data/objetivos.json
+            </code>
+                <aside class="notes">This is going ot be used in a GitHub
+            workflow. Check out my other talk about how to do this. This JSON
+            file is used to randomly generate a set of three students, that will
+            be reviewing every PR by every student; these students will be the
+            ones that have already passed that objective.</aside>
+         </section>
+
+         <section><h1>Conclusions</h1>
+             <h2 class="fragment">Easy data processing and handling in
+                 Raku!</h2>
+             <h2 class="fragment">(Now) Easy integration in GitHub
+                 workflows</h2>
+             <h2 class="fragment">Awesomeness in few lines of code!</h2>
+         </section>
+            
       </div>
     </div>
 
