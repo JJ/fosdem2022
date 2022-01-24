@@ -55,7 +55,7 @@
                         alcanzados">
         </section>
 
-        <section><h1>Objectives are</h1>
+        <section><h1>Objectives can be</h1>
             <h2 class="fragment">Not submitted</h2>
             <h2 class="fragment">Not evaluated</h2>
             <h2 class="fragment">Done</h2>
@@ -65,9 +65,9 @@
                 reviews, you help them progress</aside>
         </section>
 
-        <section><h1>Class analytics give you an idea of how students are
+        <section><h1>Need to know how students are
             progressing in their objectives</h1>
-            <h2 class="fragment">Markdown ⇒ sets of students</h2>
+            <h2 class="fragment">Markdown ⇒ sets of students per objective</h2>
         </section>
 
         <section><h1>Meet <code>IV::Stats</code></h1>
@@ -107,20 +107,21 @@ for $stats.objetivos -> $o {
 
          <section><h1>How many objectives have been reached?</h1>
             <pre><code>use IV::Stats;
-
 use JSON::Fast;
 
 say to-json IV::Stats.new.objetivos-cumplidos</code></pre>
 
             <h2 class="fragment">Inside a GitHub action</h2>
-            <pre><code>      - name: Genera JSON
+            <pre class="fragment"><code>      - name: Genera JSON
         run: raku -Ilib scripts/iv-objetivos.raku > data/objetivos.json
             </code>
                 <aside class="notes">This is going ot be used in a GitHub
             workflow. Check out my other talk about how to do this. This JSON
             file is used to randomly generate a set of three students, that will
             be reviewing every PR by every student; these students will be the
-            ones that have already passed that objective.</aside>
+            ones that have already passed that objective. That's going to be
+            committed and pushed to the repository, so that this data is
+            generated automatically and is readily available for any upcoming workflows.</aside>
          </section>
 
          <section><h1>Conclusions</h1>
@@ -128,7 +129,7 @@ say to-json IV::Stats.new.objetivos-cumplidos</code></pre>
                  Raku!</h2>
              <h2 class="fragment">(Now) Easy integration in GitHub
                  workflows</h2>
-             <h2 class="fragment">Awesomeness in few lines of code!</h2>
+             <h2 class="fragment">Awesomeness in a few lines of code!</h2>
          </section>
             
       </div>
@@ -139,7 +140,7 @@ say to-json IV::Stats.new.objetivos-cumplidos</code></pre>
     <script src="plugin/highlight/highlight.js"></script>
     <script>Reveal.initialize({
 			  hash: true,
-			  width: '95%',
+			  width: '99%',
 			  controls: true,
 			  progress: true,
 			  plugins: [ RevealHighlight, RevealNotes ]
